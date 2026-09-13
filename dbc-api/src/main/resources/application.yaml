@@ -2,10 +2,10 @@ spring:
   application:
     name: dbc-api
   datasource:
-    url: jdbc:postgresql://localhost:5432/dbc_db
+    url: ${DB_URL}
     default_schema: dbc
-    username:
-    password:
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -19,3 +19,10 @@ spring:
       org:
         hibernate:
           SQL: DEBUG
+  cloud:
+    azure:
+      storage:
+        connection:
+          string: ${AZURE_CONNECTION_STRING}
+        container:
+          name: ${AZURE_STORAGE_CONTAINER_NAME}
