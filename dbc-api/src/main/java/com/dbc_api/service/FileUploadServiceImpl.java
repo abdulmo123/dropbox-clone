@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -15,21 +16,24 @@ import java.util.UUID;
 @Slf4j
 public class FileUploadServiceImpl implements FileUploadService {
 
-    private FileUploadRepository fileUploadRepository;
+    private final FileUploadRepository fileUploadRepository;
+    private final AzureBlobStorageService azureBlobStorageService;
 
-    public FileUploadServiceImpl (FileUploadRepository fileUploadRepository) {
+    public FileUploadServiceImpl (FileUploadRepository fileUploadRepository, AzureBlobStorageService azureBlobStorageService) {
         this.fileUploadRepository = fileUploadRepository;
+        this.azureBlobStorageService = azureBlobStorageService;
     }
 
 
     @Transactional
     @Override
-    public FileUploadResponse uploadFile(FileUploadRequest fileUploadRequest, Timestamp timestamp) {
+    public FileUploadResponse uploadFile(FileUploadRequest fileUploadRequest, Timestamp timestamp) throws IOException {
         MultipartFile file = fileUploadRequest.file();
         String id = UUID.randomUUID().toString();
 
 
         // push it to Azure Blob storage ?
+        azureBlobStorageService.uploadFile(file);
 
         // save the file info to DB
         fileUploadRepository.saveUploadFileInfo(
