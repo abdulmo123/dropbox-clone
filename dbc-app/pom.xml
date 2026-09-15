@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com</groupId>
-	<artifactId>dbc-api</artifactId>
+	<artifactId>dbc-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>
