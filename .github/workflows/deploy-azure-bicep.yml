@@ -27,6 +27,11 @@ jobs:
           # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       
+      - name: Create Deployment at Subscription
+        working-directory: '${{ github.workspace }}/infra'
+        run: |
+          az deployment sub create -f ./main.bicep --location eastus2
+
       - name: Azure Bicep Deployment
         working-directory: '${{ github.workspace}}/infra'
         run: |
