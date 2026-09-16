@@ -28,9 +28,8 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       
       - name: Azure Bicep Deployment
-        uses: azure/cli@v2
-        with:
-          inlineScript: |
-            az deployment group create \
+        working-directory: '$${{ github.workspace}}/infra'
+        run: |
+          az deployment group create \
             --resource-group ${{ env.RESOURCE_GROUP }} \
             --template-file ../infra/main.bicep
