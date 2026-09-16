@@ -1,0 +1,25 @@
+name: Deploy Azure Bicep
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: Azure/login@v3.0.2
+        with:
+          # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
+          creds: ${secrets.AZURE_CREDENTIALS}
