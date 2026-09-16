@@ -10,6 +10,9 @@ on:
 permissions:
   contents: read
 
+env: 
+  RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,3 +26,11 @@ jobs:
         with:
           # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Azure Bicep Deployment
+        uses: azure/cli@v2
+        with:
+          inlineScript: |
+            az deployment group create \
+            --resource-group ${{ env.RESOURCE_GROUP }} \
+            --template-file ./infra/main.bicep
