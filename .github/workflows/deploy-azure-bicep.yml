@@ -33,4 +33,4 @@ jobs:
           inlineScript: |
             az deployment group create \
             --resource-group ${{ env.RESOURCE_GROUP }} \
-            --template-file ./infra/main.bicep
+            --template-file ../infra/main.bicep
