@@ -12,6 +12,7 @@ permissions:
 
 env: 
   RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
+  AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
 
 jobs:
   build:
@@ -26,7 +27,13 @@ jobs:
         with:
           # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      
+
+      - name: Role Assignment
+        run: |
+          az role assignment create --assignee-object-id b2902d28-dd67-4a46-8b32-574cf852fe55  \
+          --assignee-principal-type "ServicePrincipal" \
+          --role "Owner" --scope "/"
+
       - name: Create Deployment at Subscription
         working-directory: '${{ github.workspace }}/infra'
         run: |
