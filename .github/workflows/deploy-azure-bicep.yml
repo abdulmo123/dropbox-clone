@@ -36,6 +36,6 @@ jobs:
       - name: Azure Bicep Deployment
         working-directory: '${{ github.workspace}}/infra'
         run: |
-          az deployment group create \
-            --resource-group ${{ env.RESOURCE_GROUP }} \
+          az deployment sub create \
+            --location eastus2 \
             --template-file ../infra/main.bicep
