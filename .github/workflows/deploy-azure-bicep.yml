@@ -7,12 +7,15 @@ on:
     branches: [ main ]
 
   workflow_dispatch:
+
 permissions:
   contents: read
 
 env: 
   RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
-  # AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+  AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+  AZURE_SP_OBJECT_ID: ${{ vars.AZURE_SP_OBJECT_ID }}
+  AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
 jobs:
   build:
@@ -28,14 +31,24 @@ jobs:
           # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      # - name: Create Deployment at Subscription
-      #   working-directory: '${{ github.workspace }}/infra'
-      #   run: |
-      #     az deployment sub create -f ./main.bicep --location eastus2
+      - name: Add Contributor Role to Service Principal 
+        run: |
+          az role assignment create \
+            --assignee-object-id ${{ env.AZURE_SP_OBJECT_ID }}  \
+            --assignee-principal-type ServicePrincipal \
+            --role Contributor \
+            --scope /subscriptions/${{ env.AZURE_SUBSCRIPTION_ID }}
 
+      - name: Verify Service Principal Roles
+        run: | 
+          az role assignment list \
+            --assignee ${{ env.AZURE_SP_OBJECT_ID }} \
+            --scope /subscriptions/${{ env.AZURE_SUBSCRIPTION_ID }} \
+            --output table
+                  
       - name: Azure Bicep Deployment
-        working-directory: '${{ github.workspace}}/infra'
+        working-directory: ./infra
         run: |
           az deployment sub create \
             --location eastus2 \
-            --template-file ../infra/main.bicep
+            --template-file main.bicep
