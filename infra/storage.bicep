@@ -9,7 +9,9 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2026-04-01' = {
     name: 'Standard_LRS'
   }
   kind: 'BlobStorage'
-  properties: {}
+  properties: {
+    accessTier: 'Hot'
+  }
 }
 
 resource blobService 'Microsoft.Storage/storageAccounts/blobServices@2026-04-01' = {
