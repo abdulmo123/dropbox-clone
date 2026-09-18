@@ -31,14 +31,6 @@ jobs:
           # Paste output of `az ad sp create-for-rbac` as value of secret variable: AZURE_CREDENTIALS
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Add Contributor Role to Service Principal 
-        run: |
-          az role assignment create \
-            --assignee-object-id ${{ env.AZURE_SP_OBJECT_ID }}  \
-            --assignee-principal-type ServicePrincipal \
-            --role Contributor \
-            --scope /subscriptions/${{ env.AZURE_SUBSCRIPTION_ID }}
-
       - name: Verify Service Principal Roles
         run: | 
           az role assignment list \
