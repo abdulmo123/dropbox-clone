@@ -1,10 +1,6 @@
 name: Deploy Azure Bicep
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
   workflow_dispatch:
 
@@ -13,7 +9,6 @@ permissions:
 
 env: 
   RESOURCE_GROUP: ${{ vars.AZURE_RESOURCE_GROUP }}
-  AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
   AZURE_SP_OBJECT_ID: ${{ vars.AZURE_SP_OBJECT_ID }}
   AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
