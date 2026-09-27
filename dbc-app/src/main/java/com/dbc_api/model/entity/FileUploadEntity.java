@@ -11,8 +11,6 @@ public class FileUploadEntity {
     @Id
     private String id;
 
-//    private Long userId;
-
     @Basic
     @Column(name = "file_name")
     private String filename;
@@ -28,4 +26,8 @@ public class FileUploadEntity {
     @Basic
     @Column(name = "upload_timestamp")
     private Timestamp uploadTimestamp;
+
+    @Basic
+    @Column(name = "folder_id")
+    private String folderId;
 }

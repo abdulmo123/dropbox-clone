@@ -61,6 +61,11 @@ public class FileUploadServiceImpl implements FileUploadService {
                     azureContainerName + "/" + file.getOriginalFilename());
         }
 
-        return new FileUploadResponse(id, file.getOriginalFilename(), file.getSize(), "", timestamp);
+        return new FileUploadResponse(
+                (fileDto != null && fileDto.getId() != null) ? fileDto.getId() : id,
+                file.getOriginalFilename(),
+                file.getSize(),
+                azureContainerName + "/" + file.getOriginalFilename(),
+                timestamp); 
     }
 }

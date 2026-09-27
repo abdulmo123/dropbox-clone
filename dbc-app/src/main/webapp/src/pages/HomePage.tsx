@@ -3,6 +3,8 @@ import LeftPaneMenu from "../components/LeftPaneMenu";
 import AddIcon from '@mui/icons-material/Add';
 import UploadIcon from '@mui/icons-material/Upload';
 import React from "react";
+import { createFolder } from "../api";
+import type { CreateFolderRequest } from "../types";
 
 export default function Home() {
     const [open, setOpen] = React.useState(false);
@@ -15,16 +17,19 @@ export default function Home() {
         setOpen(false);
     };
 
-    const handleSubmit = (event: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
+    const handleSubmit = async (event: { preventDefault: () => void; currentTarget: HTMLFormElement | undefined; }) => {
         event.preventDefault();
         const formData = new FormData(event.currentTarget);
-        const formJson = Object.fromEntries(formData.entries());
-        console.log('formJson', formJson);
-        const email = formJson.email;
-        console.log(email);
+        console.log('formData', formData.get('name'));
+
         handleClose();
 
         // TODO: do some backend call to create this folder
+        const response: CreateFolderRequest = await createFolder({
+            folderName: formData.get('name') as string
+        });
+
+        console.log('response', response);
     };
 
     return (
