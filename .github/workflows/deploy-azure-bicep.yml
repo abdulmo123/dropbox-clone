@@ -13,7 +13,8 @@ env:
   AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
 jobs:
-  build:
+  deploy:
+    name: Deploy Infrastructure to Azure
     runs-on: ubuntu-latest
 
     steps:
