@@ -1,6 +1,8 @@
 package com.dbc_api.controller;
 
 import com.dbc_api.service.FolderService;
+import com.dbc_api.util.DbcResponse;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +32,7 @@ public class FolderController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<FolderDto> createFolder(@RequestBody FolderDto folderDto) throws Exception {
+    public ResponseEntity<DbcResponse> createFolder(@RequestBody FolderDto folderDto) throws Exception {
         try {
             LOGGER.info("Folder {} created successfully...", folderDto);
             return ResponseEntity.ok(folderService.createFolder(folderDto));

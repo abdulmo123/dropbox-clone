@@ -17,4 +17,9 @@ public interface FolderRepository extends JpaRepository<FolderEntity, String> {
 
         FolderEntity createFolder(@Param("id") String id,
                         @Param("folderName") String folderName);
+
+        @Query(value = """
+                        select exists(select 1 from dbc.folder where folder_name = :folderName)
+                        """, nativeQuery = true)
+        boolean folderNameExists(@Param("folderName") String folderName);
 }
